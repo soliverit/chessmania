@@ -3,8 +3,8 @@ class Board
 	//Members
 	Square[][] Squares;
 	//Geometry 
-	int Width				= 400;
-	int Height				= 400;
+	int Width				= 300;
+	int Height				= 300;
 	int X					= 80;
 	int Y					= 80;
 	// Colours
@@ -34,39 +34,35 @@ class Board
 	float OffsetX(float x){return x + X;}
 	float OffsetY(float y){return y + Y;}
 	float InverseOffsetY(float y){return OffsetX(Height) - y;}
-	int SquareWidth(){return Width / 8;}
+	float SquareWidth(){return Width / 8.0;}
 	void Render()
 	{
 		int squareWidth	= SquareWidth();
-		int borderWidth	= squareWidth / 1.7;
+		int borderWidth	= squareWidth / 1.6;
 		// Border
 		nvg::BeginPath();
-		nvg::RoundedRect(X - borderWidth , Y - borderWidth, OffsetX( Width + borderWidth), OffsetY(Height + borderWidth), 4.0);
+		nvg::RoundedRect(X - borderWidth , Y - borderWidth, Width + borderWidth * 2, Height + borderWidth * 2, 4.0);
 		nvg::StrokeWidth(2.0);
 		nvg::StrokeColor(OutlineColour);
 		nvg::FillColor(BorderColour);
-
 		nvg::Fill();
 		nvg::Stroke();
-		// Background
-		nvg::BeginPath();
-		nvg::MoveTo(vec2(X, Y));
-		nvg::LineTo(vec2(OffsetX(Width),Y));
-		nvg::LineTo(vec2(OffsetX(Width), OffsetY(Height)));
-		nvg::LineTo(vec2(X, OffsetY(Height)));
-		nvg::FillColor(BoardColour);
-		nvg::Fill();
-		nvg::ClosePath();
+		nvg::ClosePath();		
+
+		
 		// Squares
+		float width		= 0;
+		float height	= 0;
 		bool isOddTile	= true;
 		for(uint rowID = 0; rowID < 8; rowID++)
 		{	
-			int y	= OffsetY(squareWidth * rowID);
-
+			int y	= Y + squareWidth * rowID;
+			height += squareWidth;
 			for(uint cellID = 0; cellID < 8; cellID++)
 			{
+				height += squareWidth;
 				// Position
-				int x	= OffsetX(squareWidth * cellID);
+				int x	= X + squareWidth * cellID;
 				// Colour
 				vec4 tileColour	= isOddTile ? SquareOddColour : SquareEvenColour;
 				isOddTile	= ! isOddTile;

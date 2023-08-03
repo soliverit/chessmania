@@ -1,0 +1,8 @@
+{
+    "version": "2.0.0",
+    "label": "fire",
+    "command": "cd ../;7z a -tzip  ${workspaceFolderBasename}.op ./${workspaceFolderBasename}\\*;",
+    "type": "shell",
+	"isDefault": true
+    
+}

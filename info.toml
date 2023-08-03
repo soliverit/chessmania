@@ -1,0 +1,10 @@
+[meta]
+name = "Dashboard"
+author = "Count Duckula"
+category = "Plotting"
+version = "3.2.a"
+siteid = 99999
+
+[script]
+timeout = 0
+

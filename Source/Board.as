@@ -48,9 +48,7 @@ class Board
 		nvg::Fill();
 		nvg::Stroke();
 		nvg::ClosePath();	
-		UI::DrawList d;
-		d.AddImage()
-		IO::FileSource FileSource	= IO::FileSource("C:\\Users\\soliv\\OpenplanetNext\\Plugins\\wirt_chess\\pieces\\white\\queen.png");
+		
 		// Squares
 		float width		= 0;
 		float height	= 0;

@@ -24,15 +24,15 @@ class Game
 		row[6].SetPiece(Player1.TheSecondHorse);
 		row[7].SetPiece(Player1.TheSecondCastle);
 
-		row	= Square[1];
-		row[0].SetPiece(Player1.Pawns[0]);
-		row[1].SetPiece(Player1.Pawns[1]);
-		row[2].SetPiece(Player1.Pawns[2]);
-		row[3].SetPiece(Player1.Pawns[3]);
-		row[4].SetPiece(Player1.Pawns[4]);
-		row[5].SetPiece(Player1.Pawns[5]);
-		row[6].SetPiece(Player1.Pawns[6]);
-		row[7].SetPiece(Player1.Pawns[7]);
+		row	= GameBoard.Squares[1];
+		row[0].SetPiece(Player1.Pawn1);
+		row[1].SetPiece(Player1.Pawn2);
+		row[2].SetPiece(Player1.Pawn3);
+		row[3].SetPiece(Player1.Pawn4);
+		row[4].SetPiece(Player1.Pawn5);
+		row[5].SetPiece(Player1.Pawn6);	
+		row[6].SetPiece(Player1.Pawn7);
+		row[7].SetPiece(Player1.Pawn8);
 		// Player 2
 		row = GameBoard.Squares[7];
 		row[0].SetPiece(Player2.TheFirstCastle);
@@ -44,14 +44,14 @@ class Game
 		row[6].SetPiece(Player2.TheSecondHorse);
 		row[7].SetPiece(Player2.TheSecondCastle);
 
-		row	= Squares[6];
-		row[0].SetPiece(Player2.Pawns[0]);
-		row[1].SetPiece(Player2.Pawns[1]);
-		row[2].SetPiece(Player2.Pawns[2]);
-		row[3].SetPiece(Player2.Pawns[3]);
-		row[4].SetPiece(Player2.Pawns[4]);
-		row[5].SetPiece(Player2.Pawns[5]);
-		row[6].SetPiece(Player2.Pawns[6]);
-		row[7].SetPiece(Player2.Pawns[7]);
+		row	= GameBoard.Squares[6];
+		row[0].SetPiece(Player2.Pawn1);
+		row[1].SetPiece(Player2.Pawn2);
+		row[2].SetPiece(Player2.Pawn3);
+		row[3].SetPiece(Player2.Pawn4);
+		row[4].SetPiece(Player2.Pawn5);
+		row[5].SetPiece(Player2.Pawn6);	
+		row[6].SetPiece(Player2.Pawn7);
+		row[7].SetPiece(Player2.Pawn8);
 	}
 }

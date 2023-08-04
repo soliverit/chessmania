@@ -30,19 +30,19 @@ class Player
 		TheFirstBishop	= Bishop(isWhite);
 		TheSecondBishop	= Bishop(isWhite);
 		TheFirstCastle	= Castle(isWhite);
-		TheSecondCastle	= Castle(isWhite);
-		TheFirstHorse	= Horse(isWhite);
-		TheSecondHorse	= Horse(isWhite);
-		TheKing		= King(isWhite);
-		TheQueen	= Queen(isWhite);
-		Pawn1		= Pawn(isWhite);
-		Pawn2		= Pawn(isWhite);
-		Pawn3		= Pawn(isWhite);
-		Pawn4		= Pawn(isWhite);
-		Pawn5		= Pawn(isWhite);
-		Pawn6		= Pawn(isWhite);
-		Pawn7		= Pawn(isWhite);
-		Pawn8		= Pawn(isWhite);
+		// TheSecondCastle	= Castle(isWhite);
+		// TheFirstHorse	= Horse(isWhite);
+		// TheSecondHorse	= Horse(isWhite);
+		// TheKing		= King(isWhite);
+		// TheQueen	= Queen(isWhite);
+		// Pawn1		= Pawn(isWhite);
+		// Pawn2		= Pawn(isWhite);
+		// Pawn3		= Pawn(isWhite);
+		// Pawn4		= Pawn(isWhite);
+		// Pawn5		= Pawn(isWhite);
+		// Pawn6		= Pawn(isWhite);
+		// Pawn7		= Pawn(isWhite);
+		// Pawn8		= Pawn(isWhite);
 	}
 	bool IsWhite(){return Colour == WHITE_NAME;}
 }

@@ -59,6 +59,7 @@ class Board
 			height += squareWidth;
 			for(uint cellID = 0; cellID < 8; cellID++)
 			{
+				Square	square	= Squares[rowID][cellID];
 				height += squareWidth;
 				// Position
 				int x	= X + squareWidth * cellID;
@@ -67,24 +68,21 @@ class Board
 				isOddTile	= ! isOddTile;
 				// Draw
 				nvg::BeginPath();
+
 				nvg::RoundedRect(x, y, squareWidth, squareWidth, 0);
 				nvg::StrokeWidth(1.0);
 				nvg::StrokeColor(vec4(0,0,0,0.2));
 				nvg::FillColor(tileColour);
-
 				nvg::Fill();
 				nvg::Stroke();
-				
-				
-				// Draw stuff
-				nvg::BeginPath();
-				nvg::MoveTo(vec2(x, y));
-				nvg::LineTo(vec2(x + squareWidth, y));
-				nvg::LineTo(vec2(x + squareWidth, y + squareWidth));
-				nvg::LineTo(vec2(x, y + squareWidth));
+			
 				nvg::ClosePath();
-				nvg::FillColor(tileColour);
-				nvg::Fill();
+				if(square.HasPiece){
+					
+					
+				}
+
+
 			}
 			isOddTile = ! isOddTile;
 		}
@@ -93,6 +91,7 @@ class Board
 		nvg::FontSize(squareWidth / 2);
 		for(uint rowID = 0; rowID < 8; rowID++)
 		{	
+			// Adjustments are eyeballed for now. Ah'll write something sensible later.
 			nvg::Text(vec2(X - squareWidth * 0.5, Y + rowID * squareWidth + borderWidth * 1.15), "" + (rowID + 1) + "");
 		}
 		for(uint cellID = 0; cellID < 8; cellID++)

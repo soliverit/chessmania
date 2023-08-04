@@ -1,12 +1,14 @@
 class Square
 {
-	Piece@ HeldPiece;
-	bool HasPiece;
+	Piece HeldPiece;
+	bool HasPiece	= false;
 	Square(){}
-	void SetPiece(Piece &in piece){
+	void SetPiece(Piece piece){
 		HasPiece	= true;
 		HeldPiece	= piece;
 	}
 
-	void RemovePiece(){}
+	void RemovePiece(){
+		HasPiece	= false;
+	}
 }

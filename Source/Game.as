@@ -10,6 +10,10 @@ class Game
 		GameBoard	= board;
 		Player1		= player1;
 		Player2		= player2;
+
+		Player1.CreatePieces();
+		Player2.CreatePieces();
+		SetUpPieces();
 	}
 	void SetUpPieces()
 	{

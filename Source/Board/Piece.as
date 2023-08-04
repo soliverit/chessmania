@@ -7,8 +7,8 @@ class Piece
 	// Piece URLs
 	string BLACK_BISHOP	= "https://imgur.com/IhbPzZe";
 	string WHITE_BISHOP	= "https://imgur.com/Ei6L27t";
-	string WHITE_CASTLE	= "https://imgur.com/FXujOwb";
-	string BLACK_CASTLE	= "https://imgur.com/PYcSTic";
+	string WHITE_ROOK	= "https://imgur.com/FXujOwb";
+	string BLACK_ROOK	= "https://imgur.com/PYcSTic";
 	string WHITE_HORSE	= "https://imgur.com/5Yqfs5M";
 	string BLACK_HORSE	= "https://imgur.com/Zg2E8fZ";
 	string WHITE_KING 	= "https://imgur.com/jJywYkv";
@@ -21,30 +21,35 @@ class Piece
 	string WHITE		= "White";
 	string BLACK		= "Black";
 	string	Colour;
+	string Type;
+	string Letter		= "";
 	// Image stuff
 	string ImageURL;
 	UI::Texture@ Image;
 	Piece(){}
-	Piece(bool white, string pieceType){ 
-		Colour = white ? WHITE: BLACK;
+	Piece(bool white, string pieceType, string letter){ 
+		Colour 	= white ? WHITE: BLACK;
+		Type	= pieceType;
+		Letter	= letter;
 		if(white)
 		{
 			if(pieceType == "Bishop"){ImageURL = WHITE_BISHOP;}
-			else if(pieceType == "Castle"){ImageURL	= WHITE_CASTLE;}
+			else if(pieceType == "Rook"){ImageURL	= WHITE_ROOK;}
 			else if(pieceType == "Horse"){ImageURL	= WHITE_HORSE;}
 			else if(pieceType == "King"){ImageURL	= WHITE_KING;}
 			else if(pieceType == "Pawn"){ImageURL	= WHITE_PAWN;}
 			else if(pieceType == "Queen"){ImageURL	= WHITE_QUEEN;}
 		}else{
 			if(pieceType == "Bishop"){ImageURL = BLACK_BISHOP;}
-			else if(pieceType == "Castle"){ImageURL	= BLACK_CASTLE;}
+			else if(pieceType == "Rook"){ImageURL	= BLACK_ROOK;}
 			else if(pieceType == "Horse"){ImageURL	= BLACK_HORSE;}
 			else if(pieceType == "King"){ImageURL	= BLACK_KING;}
 			else if(pieceType == "Pawn"){ImageURL	= BLACK_PAWN;}
 			else if(pieceType == "Queen"){ImageURL	= BLACK_QUEEN;}
 		}
-		GetTexture();
+		// GetTexture();
 	}
+	
 	void GetTexture()
 	{
 		auto req	= Net::HttpRequest();

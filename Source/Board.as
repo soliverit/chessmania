@@ -1,26 +1,28 @@
 class Board
 {
 	//Members
-	Square[][] Squares;
+	Square@[][] Squares;
 	//Geometry 
-	int Width				= 300;
-	int Height				= 300;
+	int Width				= 225;
+	int Height				= 225;
 	int X					= 80;
 	int Y					= 80;
 	// Colours
 	vec4 BoardColour		= vec4(200, 1, 1, 1);
-	vec4 SquareOddColour	= vec4(0.1803, 0.0274, 0.00784, .95);
-	vec4 SquareEvenColour	= vec4(1, 0.9803, 0.9568, 0.9);
+	vec4 SquareOddColour	= vec4(1, 0.80784313, 0.6196078, 1.0);
+	vec4 SquareEvenColour	= vec4(0.81960784313, 0.545098, 0.2784313725, 1.0);
 	vec4 BorderColour		= vec4(0.1803, 0.0274, 0.00784, .95);
 	vec4 OutlineColour		= vec4(1, 0.9803, 0.9568, 0.9);
 	vec4 LabelColour		= vec4(1, 0.9803, 0.9568, 1.0);
+
+	int	ChessFont			= nvg::LoadFont("chess.ttf");
 	string[] LetterLabels	= {"A", "B", "C", "D", "E", "F", "G", "H"};
 	nvg::Font Font = nvg::LoadFont("DroidSans.ttf", true);
 	Board()
 	{
 		for(uint rowID = 0; rowID < 8; rowID++)
 		{
-			Square[] row;
+			Square@[] row;
 			for(uint columnID = 0; columnID < 8; columnID++)
 			{
 				row.InsertLast(Square());
@@ -48,11 +50,26 @@ class Board
 		nvg::Fill();
 		nvg::Stroke();
 		nvg::ClosePath();	
+		// Labels
+		// int fontText	= nvg::LoadFont("Lora-Bold.tff");
+		// nvg::FontFace(fontText);
+		nvg::FillColor(vec4(1,1,1,1));
+		nvg::FontSize(squareWidth / 2);
 		
+		for(uint rowID = 0; rowID < 8; rowID++)
+		{	
+			// Adjustments are eyeballed for now. Ah'll write something sensible later.
+			nvg::Text(vec2(X - squareWidth * 0.5, Y + rowID * squareWidth + borderWidth * 1.15), "" + (rowID + 1) + "");
+		}
+		for(uint cellID = 0; cellID < 8; cellID++)
+		{
+			nvg::Text(vec2(X + squareWidth * cellID + squareWidth * 0.3, Y + Height + squareWidth * 0.5), LetterLabels[cellID]);
+		}
 		// Squares
 		float width		= 0;
 		float height	= 0;
 		bool isOddTile	= true;
+		nvg::FontFace(ChessFont);
 		for(uint rowID = 0; rowID < 8; rowID++)
 		{	
 			int y	= Y + squareWidth * rowID;
@@ -70,33 +87,26 @@ class Board
 				nvg::BeginPath();
 
 				nvg::RoundedRect(x, y, squareWidth, squareWidth, 0);
-				nvg::StrokeWidth(1.0);
+				nvg::StrokeWidth(3.0);
 				nvg::StrokeColor(vec4(0,0,0,0.2));
 				nvg::FillColor(tileColour);
 				nvg::Fill();
 				nvg::Stroke();
 			
 				nvg::ClosePath();
-				if(square.HasPiece){
-					
-					
-				}
+				// Draw piece
+
+				vec4 colour	= square.HeldPiece.Colour == "White" ? vec4(1,1,1,1) : vec4(0,0,0,1);
+				nvg::FillColor(colour);
+				
+				nvg::FontSize(squareWidth);
+				nvg::Text(vec2(x , y+ squareWidth - 3), square.HeldPiece.Letter);
 
 
 			}
 			isOddTile = ! isOddTile;
 		}
-		// Labels
-		nvg::FillColor(LabelColour);
-		nvg::FontSize(squareWidth / 2);
-		for(uint rowID = 0; rowID < 8; rowID++)
-		{	
-			// Adjustments are eyeballed for now. Ah'll write something sensible later.
-			nvg::Text(vec2(X - squareWidth * 0.5, Y + rowID * squareWidth + borderWidth * 1.15), "" + (rowID + 1) + "");
-		}
-		for(uint cellID = 0; cellID < 8; cellID++)
-		{
-			nvg::Text(vec2(X + squareWidth * cellID + squareWidth * 0.3, Y + Height + squareWidth * 0.5), LetterLabels[cellID]);
-		}
+
+		
 	}
 }

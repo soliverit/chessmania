@@ -1,6 +1,5 @@
 class King : Piece
 {
-	
 	King(){}
-	King(bool white){super(white, "King");}
+	King(bool white){super(white, "King", "W");}
 }

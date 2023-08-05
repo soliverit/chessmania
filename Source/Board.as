@@ -31,19 +31,32 @@ class Board
 		}
 	}
 	/*
-		"Geometry" (if you can call it that) helpers
+
+	*/
+	/*
+		"Geometry" (if you can call it that) helpers 
 	*/
 	float OffsetX(float x){return x + X;}
 	float OffsetY(float y){return y + Y;}
 	float InverseOffsetY(float y){return OffsetX(Height) - y;}
 	float SquareWidth(){return Width / 8.0;}
+	vec2 GetMouseLocation()
+	{
+		vec2 position	= UI::GetMousePos();
+		return vec2(position.x - X, position.y - Y);
+	}
+	bool MouseIsOverBoard()
+	{
+		vec2 position	= GetMouseLocation();
+		return position.x >= X && position.x <= position.x  + X + Width && position.y >= Y && position.y <  Y + Height;
+	}
 	void Render()
 	{
 		int squareWidth	= SquareWidth();
 		int borderWidth	= squareWidth / 1.6;
 		// Border
 		nvg::BeginPath();
-		nvg::RoundedRect(X - borderWidth , Y - borderWidth, Width + borderWidth * 2, Height + borderWidth * 2, 4.0);
+		nvg::RoundedRect(vec2(X - borderWidth , Y - borderWidth),vec2(Width + borderWidth * 2, Height + borderWidth * 2), 4.0);
 		nvg::StrokeWidth(2.0);
 		nvg::StrokeColor(OutlineColour);
 		nvg::FillColor(BorderColour);
@@ -51,8 +64,6 @@ class Board
 		nvg::Stroke();
 		nvg::ClosePath();	
 		// Labels
-		// int fontText	= nvg::LoadFont("Lora-Bold.tff");
-		// nvg::FontFace(fontText);
 		nvg::FillColor(vec4(1,1,1,1));
 		nvg::FontSize(squareWidth / 2);
 		

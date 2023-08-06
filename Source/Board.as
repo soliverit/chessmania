@@ -8,16 +8,19 @@ class Board
 	int X					= 80;	// Screen position
 	int Y					= 80;	// Screen position
 	// Colours
-	vec4 BoardColour		= vec4(200, 1, 1, 1);								// Board colour
-	vec4 SquareOddColour	= vec4(1, 0.80784313, 0.6196078, 1.0);				// Odd sqaure colour
-	vec4 SquareEvenColour	= vec4(0.81960784313, 0.545098, 0.2784313725, 1.0);	// Even square colour
-	vec4 BorderColour		= vec4(0.1803, 0.0274, 0.00784, .95);				// Board-er colour
-	vec4 OutlineColour		= vec4(1, 0.9803, 0.9568, 0.9);						// Outline colour
-	vec4 LabelColour		= vec4(1, 0.9803, 0.9568, 1.0);						// Label (1..8, A..H)
-	vec4 HighlightedColour	= vec4(1, 0, 0, 1);									// Highlighted square colour
+	vec4 BoardColour			= vec4(200, 1, 1, 1);								// Board colour
+	vec4 SquareOddColour		= vec4(1, 0.80784313, 0.6196078, 1.0);				// Odd sqaure colour
+	vec4 SquareEvenColour		= vec4(0.81960784313, 0.545098, 0.2784313725, 1.0);	// Even square colour
+	vec4 BorderColour			= vec4(0.1803, 0.0274, 0.00784, .95);				// Board-er colour
+	vec4 OutlineColour			= vec4(1, 0.9803, 0.9568, 0.9);						// Outline colour
+	vec4 LabelColour			= vec4(1, 0.9803, 0.9568, 1.0);						// Label (1..8, A..H)
+	vec4 HighlightedColour		= vec4(1, 0, 0, 1);									// Highlighted square colour
+	vec4 CurrentPlayerColour	= vec4(0, 1, 0, 1);
 
-	Square@ HighlightedSquare;
+	bool HighlightCurrentPlayer	= true;
+	// Fonts
 	int	ChessFont			= nvg::LoadFont("chess.ttf");
+	
 	string[] LetterLabels	= {"A", "B", "C", "D", "E", "F", "G", "H"};
 	nvg::Font Font = nvg::LoadFont("DroidSans.ttf", true);
 	Board()
@@ -74,7 +77,7 @@ class Board
 		}
 		print(uci);
 	}
-	string ToUCI()
+	string ToUCI(bool white)
 	{
 		string[] rows;
 		for(uint rowID = 0; rowID < Squares.Length; rowID++)
@@ -91,30 +94,22 @@ class Board
 				}
 				else
 				{
-					if(dotCounter > 0){
-						for(uint pointID = 0; pointID < dotCounter; pointID++)
-						{
-					
-							row += "" + dotCounter;
-							dotCounter = 0;
-						}
+					if(dotCounter > 0)
+					{
+						row 		+= "" + dotCounter;
+						dotCounter	= 0;
 					}
-					else{
-						row = row + piece.UCILetter;  
-					}
+					row = row + piece.UCILetter;  
 				}
 			}
 			if(dotCounter > 0){
-				for(uint pointID = 0; pointID < dotCounter; pointID++)
-				{
-			
-					row += ".";
-					
-				}
+				row			+= "" + dotCounter;
+				dotCounter	= 0;
 			}
 			rows.InsertLast(row);
 		}
-		return string::Join(rows,"/");
+		string playerCharacter	= white ? "w" : "b";
+		return string::Join(rows,"/") + " " + playerCharacter;
 	}
 	/*
 
@@ -146,10 +141,10 @@ class Board
 		vec2 position		= GetMouseLocation();
 		int rowID			= float(position.y) / squareWidth;
 		int cellID			= float(position.x) / squareWidth;
-		print("R:" + rowID + ", C:" + cellID + ", X: " + position.x + ", Y: " + position.y);
+		// print("R:" + rowID + ", C:" + cellID + ", X: " + position.x + ", Y: " + position.y);
 		return vec2(cellID, rowID);
 	}
-	void Render()
+	void Render(string currentPlayerColour)
 	{
 		vec2 highlightedSquarePosition	= GetHighlightedSquarePosition();
 		int squareWidth					= SquareWidth();
@@ -204,6 +199,10 @@ class Board
 				{
 					nvg::FillColor(HighlightedColour);
 				}
+				else if(HighlightCurrentPlayer && square.HasPiece && square.HeldPiece.Colour == currentPlayerColour)
+				{
+					nvg::FillColor(CurrentPlayerColour);
+				}
 				else{
 					nvg::FillColor(tileColour);
 				}
@@ -223,7 +222,5 @@ class Board
 			}
 			isOddTile = ! isOddTile;
 		}
-
-		
 	}
 }

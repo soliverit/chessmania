@@ -32,7 +32,7 @@ class Piece
 		Colour 		= white ? WHITE: BLACK;
 		Type		= pieceType;
 		Letter		= letter;
-		UCILetter	= Colour == WHITE ? uciLetter.ToLower() : uciLetter.ToUpper();
+		UCILetter	= Colour == WHITE ? uciLetter.ToUpper() : uciLetter.ToLower();
 		if(white)
 		{
 			if(pieceType == "Bishop"){ImageURL = WHITE_BISHOP;}

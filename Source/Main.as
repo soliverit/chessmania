@@ -21,7 +21,7 @@ void Main()
 		bool braking	=  vehicleState.InputIsBraking;
 		if(braking){
 			game.GameBoard.PrintUCITable();
-			print(game.GameBoard.ToUCI());
+			print(game.GameBoard.ToUCI(true));
 		}
 		// float inputGas	= vehicleState.InputBrakePedal ;
 		// if(!largeMode	&& inputGas > 0)

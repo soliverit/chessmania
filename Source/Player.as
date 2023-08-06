@@ -20,15 +20,37 @@ class Player
 	Horse TheSecondHorse;
 	King TheKing;
 	Queen TheQueen;
+	// Player type
+	bool IsAI;
+	bool IsThinking;
+	string NextMove;
 	// Constructors
 	Player(){}
 	bool White;
-	Player(bool white){Colour = white ? WHITE_NAME: BLACK_NAME;}
+	Player(bool white, bool isAI){
+		Colour 	= white ? WHITE_NAME: BLACK_NAME;
+		IsAI	= isAI
+	}
+	void Think(string brainURL)
+	{
+		IsThinking	= true;
+		NextMove	= "";
+        Net::HttpRequest@ req = Net::HttpRequest();
+        req.Method = Net::HttpMethod::Get;
+        req.Url = brainURL;
+        req.Start();
+        while (!req.Finished()) {
+            yield();
+        }
+		print("--- AI RESPONDS WITH ---");
+		print(req.ResponseHeader());
+		NextMove = "Shoe";
+		IsThinking	= false;
+	}
 	void CreatePieces()
 	{
 		
 		bool isWhite	= IsWhite();
-		print(isWhite);
 		TheFirstBishop	= Bishop(isWhite);
 		TheSecondBishop	= Bishop(isWhite);
 		TheFirstRook	= Rook(isWhite);

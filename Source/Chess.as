@@ -1,22 +1,47 @@
 class Chess
 {
+	string	BRAIN_URL	= "http://localhost:5001/chess";
 	Board GameBoard;
 	Player Player1;
 	Player Player2;
+	Player CurrentPlayer;
 	bool IsVisible;
 	bool IsFinished;
-	
+	Move[] Moves;
 	Chess(){}
 	Chess()
 	{
-		GameBoard	= Board();
-		Player1		= Player(true);
-		Player2		= Player(false);
-
+		GameBoard		= Board();
+		Player1			= Player(true, true);
+		Player2			= Player(false, false);
+		CurrentPlayer	= Player1;
 		Player1.CreatePieces();
 		Player2.CreatePieces();
 		SetUpPieces();
 	}
+	void MakeMove(string move)
+	{
+		if(CurrentPlayer.IsAI)
+		{
+			if(!CurrentPlayer.IsThinking && !CurrentPlayer.ReadyToMove())
+			{
+				print("Plato that shit");
+				CurrentPlayer.Think(BRAIN_URL);
+				return;
+			}
+			if(!CurrentPlayer.IsThinking() && CurrentPlayer.ReadyToMove())
+			{
+				print("Player is moving---------");
+				print(CurrentPlayer.NextMove);
+				print("------------------");
+				CurrentPlayer = CurrentPlayer == Player1 ? Player2 : Player1;
+				return;
+			}
+		}
+		Moves.InsertLast(Move(CurrentPlayer));
+		CurrentPlayer	= CurrentPlayer.Colour == "White" ? Player2 : Player1;	// TODO: A bit dirty
+	}
+
 	void SetUpPieces()
 	{
 		// Player 1
@@ -51,7 +76,6 @@ class Chess
 		row[7].SetPiece(Player2.TheSecondRook);
 
 		row	= GameBoard.Squares[6];
-		print(Player1.Pawn1.UCILetter + "-" + Player2.Pawn1.UCILetter);
 		row[0].SetPiece(Player2.Pawn1);
 		row[1].SetPiece(Player2.Pawn2);
 		row[2].SetPiece(Player2.Pawn3);
@@ -66,6 +90,6 @@ class Chess
 		if(!IsVisible){
 			return;
 		}
-		GameBoard.Render();
+		GameBoard.Render(CurrentPlayer.Colour);
 	}
 }

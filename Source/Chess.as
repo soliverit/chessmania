@@ -13,33 +13,43 @@ class Chess
 	{
 		GameBoard		= Board();
 		Player1			= Player(true, true);
-		Player2			= Player(false, false);
+		Player2			= Player(false, true);
 		CurrentPlayer	= Player1;
 		Player1.CreatePieces();
 		Player2.CreatePieces();
 		SetUpPieces();
 	}
-	void MakeMove(string move)
+	void MakeMove()
 	{
 		if(CurrentPlayer.IsAI)
 		{
 			if(!CurrentPlayer.IsThinking && !CurrentPlayer.ReadyToMove())
 			{
-				print("Plato that shit");
-				CurrentPlayer.Think(BRAIN_URL);
+				CurrentPlayer.Think(BRAIN_URL, GameBoard.ToFEN(CurrentPlayer.IsWhite()));
 				return;
 			}
-			if(!CurrentPlayer.IsThinking() && CurrentPlayer.ReadyToMove())
+			if(!CurrentPlayer.IsThinking && CurrentPlayer.ReadyToMove())
 			{
 				print("Player is moving---------");
 				print(CurrentPlayer.NextMove);
 				print("------------------");
-				CurrentPlayer = CurrentPlayer == Player1 ? Player2 : Player1;
-				return;
+				Move move	= Move(GameBoard, CurrentPlayer, CurrentPlayer.GetNextMoveCode());
+				Moves.InsertLast(move);
+				print("Start X: " + move.StartPosition.x + "Y: " + move.StartPosition.y);
+				print("Start X: " + move.EndPosition.x + "Y: " + move.EndPosition.y);
+				Square@ startSquare	= GameBoard.Squares[move.StartPosition.y][move.StartPosition.x];
+				Square@ endSquare	= GameBoard.Squares[move.EndPosition.y][move.EndPosition.x];
+				Piece@	piece		= startSquare.HeldPiece;
+				startSquare.RemovePiece();
+				endSquare.SetPiece(piece);
+
+				/*
+					Game state update / clean up
+				*/
+				CurrentPlayer = CurrentPlayer.IsWhite() ? Player2 : Player1;
+
 			}
 		}
-		Moves.InsertLast(Move(CurrentPlayer));
-		CurrentPlayer	= CurrentPlayer.Colour == "White" ? Player2 : Player1;	// TODO: A bit dirty
 	}
 
 	void SetUpPieces()

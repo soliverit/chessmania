@@ -22,6 +22,7 @@ class Board
 	int	ChessFont			= nvg::LoadFont("chess.ttf");
 	
 	string[] LetterLabels	= {"A", "B", "C", "D", "E", "F", "G", "H"};
+	
 	nvg::Font Font = nvg::LoadFont("DroidSans.ttf", true);
 	Board()
 	{
@@ -35,49 +36,11 @@ class Board
 			Squares.InsertLast(row);
 		}
 	}
-	void PrintUCITable()
-	{
-		string uci	= "";
-		for(uint rowID = 0; rowID < Squares.Length; rowID++)
-		{
-			int dotCounter = 0;
-			string row		= "";
-			Square@[] squares	= Squares[rowID];
-			for(uint cellID = 0; cellID < squares.Length; cellID++)
-			{
-				Piece@ piece	= squares[cellID].HeldPiece;
-				if(!squares[cellID].HasPiece)
-				{
-					dotCounter++;
-				}
-				else
-				{
-					if(dotCounter > 0){
-						for(uint pointID = 0; pointID < dotCounter; pointID++)
-						{
-					
-							row += ".";
-							dotCounter = 0;
-						}
-					}
-					else{
-						row = row + piece.UCILetter;  
-					}
-				}
-			}
-			if(dotCounter > 0){
-				for(uint pointID = 0; pointID < dotCounter; pointID++)
-				{
-			
-					row += ".";
-					
-				}
-			}
-			uci += "/" + row;
-		}
-		print(uci);
-	}
-	string ToUCI(bool white)
+	
+	/*
+		Forsyth - en something - chess notation
+	*/
+	string ToFEN(bool white)
 	{
 		string[] rows;
 		for(uint rowID = 0; rowID < Squares.Length; rowID++)
@@ -144,6 +107,9 @@ class Board
 		// print("R:" + rowID + ", C:" + cellID + ", X: " + position.x + ", Y: " + position.y);
 		return vec2(cellID, rowID);
 	}
+	/*
+
+	*/
 	void Render(string currentPlayerColour)
 	{
 		vec2 highlightedSquarePosition	= GetHighlightedSquarePosition();
@@ -165,7 +131,7 @@ class Board
 		for(uint rowID = 0; rowID < 8; rowID++)
 		{	
 			// Adjustments are eyeballed for now. Ah'll write something sensible later.
-			nvg::Text(vec2(X - squareWidth * 0.5, Y + rowID * squareWidth + borderWidth * 1.15), "" + (rowID + 1) + "");
+			nvg::Text(vec2(X - squareWidth * 0.5, Y + rowID * squareWidth + borderWidth * 1.15), "" + (7 - rowID + 1) + "");
 		}
 		for(uint cellID = 0; cellID < 8; cellID++)
 		{
@@ -210,13 +176,15 @@ class Board
 				nvg::Stroke();
 			
 				nvg::ClosePath();
-				// Draw piece
-
-				vec4 colour	= square.HeldPiece.Colour == "White" ? vec4(1,1,1,1) : vec4(0,0,0,1);
-				nvg::FillColor(colour);
-				
-				nvg::FontSize(squareWidth);
-				nvg::Text(vec2(x , y+ squareWidth - 3), square.HeldPiece.Letter);
+				if(square.HasPiece)
+				{
+					// Draw piece
+					vec4 colour	= square.HeldPiece.Colour == "White" ? vec4(1,1,1,1) : vec4(0,0,0,1);
+					nvg::FillColor(colour);
+					
+					nvg::FontSize(squareWidth);
+					nvg::Text(vec2(x , y+ squareWidth - 3), square.HeldPiece.Letter);
+				}
 
 
 			}

@@ -22,30 +22,40 @@ class Player
 	Queen TheQueen;
 	// Player type
 	bool IsAI;
-	bool IsThinking;
+	bool Thining;
+	Net::HttpRequest Thought;
 	string NextMove;
 	// Constructors
 	Player(){}
 	bool White;
 	Player(bool white, bool isAI){
 		Colour 	= white ? WHITE_NAME: BLACK_NAME;
-		IsAI	= isAI
+		IsAI	= isAI;
 	}
-	void Think(string brainURL)
+	bool ReadyToMove()
+	{
+		return NextMove != "";
+	}
+	void Think(string brainURL, string fenBOARD)
 	{
 		IsThinking	= true;
 		NextMove	= "";
         Net::HttpRequest@ req = Net::HttpRequest();
+		req.Body	= fenBOARD;
         req.Method = Net::HttpMethod::Get;
-        req.Url = brainURL;
+        req.Url = brainURL + "?fen="  +  Net::UrlEncode(fenBOARD);
         req.Start();
         while (!req.Finished()) {
             yield();
         }
-		print("--- AI RESPONDS WITH ---");
-		print(req.ResponseHeader());
-		NextMove = "Shoe";
+		NextMove = req.Json().Get("message");
 		IsThinking	= false;
+	}
+	string GetNextMoveCode()
+	{
+		string nextMoveCode	= NextMove;
+		NextMove			= "";
+		return nextMoveCode;
 	}
 	void CreatePieces()
 	{

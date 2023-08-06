@@ -23,29 +23,29 @@ class Chess
 	{
 		if(CurrentPlayer.IsAI)
 		{
-			if(!CurrentPlayer.IsThinking && !CurrentPlayer.ReadyToMove())
+			if(!CurrentPlayer.IsThinking() && !CurrentPlayer.ReadyToMove())
 			{
 				CurrentPlayer.Think(BRAIN_URL, GameBoard.ToFEN(CurrentPlayer.IsWhite()));
 				return;
 			}
-			if(!CurrentPlayer.IsThinking && CurrentPlayer.ReadyToMove())
+			if(!CurrentPlayer.IsThinking() && CurrentPlayer.ReadyToMove())
 			{
-				print("Player is moving---------");
-				print(CurrentPlayer.NextMove);
-				print("------------------");
-				Move move	= Move(GameBoard, CurrentPlayer, CurrentPlayer.GetNextMoveCode());
+				Move move			= Move(GameBoard, CurrentPlayer, CurrentPlayer.GetNextMoveCode());
 				Moves.InsertLast(move);
-				print("Start X: " + move.StartPosition.x + "Y: " + move.StartPosition.y);
-				print("Start X: " + move.EndPosition.x + "Y: " + move.EndPosition.y);
 				Square@ startSquare	= GameBoard.Squares[move.StartPosition.y][move.StartPosition.x];
 				Square@ endSquare	= GameBoard.Squares[move.EndPosition.y][move.EndPosition.x];
 				Piece@	piece		= startSquare.HeldPiece;
 				startSquare.RemovePiece();
 				endSquare.SetPiece(piece);
 
+
 				/*
 					Game state update / clean up
 				*/
+				if(Player.Checkmate)
+				{
+					IsFinished	= true;
+				}
 				CurrentPlayer = CurrentPlayer.IsWhite() ? Player2 : Player1;
 
 			}

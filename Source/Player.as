@@ -22,9 +22,10 @@ class Player
 	Queen TheQueen;
 	// Player type
 	bool IsAI;
-	bool Thining;
-	Net::HttpRequest Thought;
+	bool Thinking;
+	Net::HttpRequest@ Thought;
 	string NextMove;
+	bool Checkmate	= false;	// A bit dirty. Should have NextMove be an actual move. Need to change the constructor withBoard thoguht
 	// Constructors
 	Player(){}
 	bool White;
@@ -38,18 +39,31 @@ class Player
 	}
 	void Think(string brainURL, string fenBOARD)
 	{
-		IsThinking	= true;
-		NextMove	= "";
-        Net::HttpRequest@ req = Net::HttpRequest();
-		req.Body	= fenBOARD;
-        req.Method = Net::HttpMethod::Get;
-        req.Url = brainURL + "?fen="  +  Net::UrlEncode(fenBOARD);
-        req.Start();
-        while (!req.Finished()) {
-            yield();
-        }
-		NextMove = req.Json().Get("message");
-		IsThinking	= false;
+		Thinking		= true;
+		NextMove		= "";
+        @Thought 		= Net::HttpRequest();
+		Thought.Body	= fenBOARD;
+        Thought.Method	= Net::HttpMethod::Get;
+        Thought.Url 	= brainURL + "?fen="  +  Net::UrlEncode(fenBOARD);
+        Thought.Start();		
+	}
+	bool IsThinking()
+	{
+		if(Thinking)
+		{
+			if(Thought.Finished())
+			{
+				NextMove 	= Thought.Json().Get("message");
+				Checkmate	= Thought.Json().Get("checkmate") == "TRUE";
+
+				print("Message: " + NextMove + ", Check: " + check);
+
+				Thinking		= false;
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 	string GetNextMoveCode()
 	{

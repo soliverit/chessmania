@@ -1,5 +1,5 @@
 class Bishop : Piece
 {
 	Bishop(){}
-	Bishop(bool white){super(white, "Bishop", "N");}
+	Bishop(bool white){super(white, "Bishop", "N", "b");}
 }

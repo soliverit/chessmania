@@ -1,15 +1,17 @@
-class Game
+class Chess
 {
 	Board GameBoard;
 	Player Player1;
 	Player Player2;
+	bool IsVisible;
+	bool IsFinished;
 	
-	Game(){}
-	Game(Board board, Player player1, Player player2)
+	Chess(){}
+	Chess()
 	{
-		GameBoard	= board;
-		Player1		= player1;
-		Player2		= player2;
+		GameBoard	= Board();
+		Player1		= Player(true);
+		Player2		= Player(false);
 
 		Player1.CreatePieces();
 		Player2.CreatePieces();
@@ -49,6 +51,7 @@ class Game
 		row[7].SetPiece(Player2.TheSecondRook);
 
 		row	= GameBoard.Squares[6];
+		print(Player1.Pawn1.UCILetter + "-" + Player2.Pawn1.UCILetter);
 		row[0].SetPiece(Player2.Pawn1);
 		row[1].SetPiece(Player2.Pawn2);
 		row[2].SetPiece(Player2.Pawn3);
@@ -57,5 +60,12 @@ class Game
 		row[5].SetPiece(Player2.Pawn6);	
 		row[6].SetPiece(Player2.Pawn7);
 		row[7].SetPiece(Player2.Pawn8);
+	}
+	void Render()
+	{
+		if(!IsVisible){
+			return;
+		}
+		GameBoard.Render();
 	}
 }

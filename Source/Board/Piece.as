@@ -22,15 +22,17 @@ class Piece
 	string BLACK		= "Black";
 	string	Colour;
 	string Type;
-	string Letter		= "";
+	string Letter		= ".";
+	string UCILetter	= ".";
 	// Image stuff
 	string ImageURL;
 	UI::Texture@ Image;
 	Piece(){}
-	Piece(bool white, string pieceType, string letter){ 
-		Colour 	= white ? WHITE: BLACK;
-		Type	= pieceType;
-		Letter	= letter;
+	Piece(bool white, string pieceType, string letter, string uciLetter){ 
+		Colour 		= white ? WHITE: BLACK;
+		Type		= pieceType;
+		Letter		= letter;
+		UCILetter	= Colour == WHITE ? uciLetter.ToLower() : uciLetter.ToUpper();
 		if(white)
 		{
 			if(pieceType == "Bishop"){ImageURL = WHITE_BISHOP;}

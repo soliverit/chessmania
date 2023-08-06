@@ -26,7 +26,9 @@ class Player
 	Player(bool white){Colour = white ? WHITE_NAME: BLACK_NAME;}
 	void CreatePieces()
 	{
+		
 		bool isWhite	= IsWhite();
+		print(isWhite);
 		TheFirstBishop	= Bishop(isWhite);
 		TheSecondBishop	= Bishop(isWhite);
 		TheFirstRook	= Rook(isWhite);

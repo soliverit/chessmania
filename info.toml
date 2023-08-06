@@ -1,10 +1,11 @@
 [meta]
-name = "Dashboard"
+name = "Chessmania"
 author = "Count Duckula"
-category = "Plotting"
+category = "Misc"
 version = "3.2.a"
 siteid = 99999
 
 [script]
+dependencies = [ "VehicleState" ]
 timeout = 0
 

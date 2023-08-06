@@ -30,6 +30,90 @@ class Board
 			Squares.InsertLast(row);
 		}
 	}
+	void PrintUCITable()
+	{
+		string uci	= "";
+		for(uint rowID = 0; rowID < Squares.Length; rowID++)
+		{
+			int dotCounter = 0;
+			string row		= "";
+			Square@[] squares	= Squares[rowID];
+			for(uint cellID = 0; cellID < squares.Length; cellID++)
+			{
+				Piece@ piece	= squares[cellID].HeldPiece;
+				if(!squares[cellID].HasPiece)
+				{
+					dotCounter++;
+				}
+				else
+				{
+					if(dotCounter > 0){
+						for(uint pointID = 0; pointID < dotCounter; pointID++)
+						{
+					
+							row += ".";
+							dotCounter = 0;
+						}
+					}
+					else{
+						row = row + piece.UCILetter;  
+					}
+				}
+			}
+			if(dotCounter > 0){
+				for(uint pointID = 0; pointID < dotCounter; pointID++)
+				{
+			
+					row += ".";
+					
+				}
+			}
+			uci += "/" + row;
+		}
+		print(uci);
+	}
+	string ToUCI()
+	{
+		string[] rows;
+		for(uint rowID = 0; rowID < Squares.Length; rowID++)
+		{
+			int dotCounter = 0;
+			string row		= "";
+			Square@[] squares	= Squares[rowID];
+			for(uint cellID = 0; cellID < squares.Length; cellID++)
+			{
+				Piece@ piece	= squares[cellID].HeldPiece;
+				if(!squares[cellID].HasPiece)
+				{
+					dotCounter++;
+				}
+				else
+				{
+					if(dotCounter > 0){
+						for(uint pointID = 0; pointID < dotCounter; pointID++)
+						{
+					
+							row += "" + dotCounter;
+							dotCounter = 0;
+						}
+					}
+					else{
+						row = row + piece.UCILetter;  
+					}
+				}
+			}
+			if(dotCounter > 0){
+				for(uint pointID = 0; pointID < dotCounter; pointID++)
+				{
+			
+					row += ".";
+					
+				}
+			}
+			rows.InsertLast(row);
+		}
+		return string::Join(rows,"/");
+	}
 	/*
 
 	*/

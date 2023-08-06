@@ -13,7 +13,7 @@ class Console
 	vec4 FontColour			= vec4(1, 1, 1, 1);
 	int Font				= nvg::LoadFont("lora_bold.ttf");
 
-	string[] Lines;
+	string[]@ Lines			= string[]();
 
 	
 	Console(){}
@@ -34,17 +34,15 @@ class Console
 		nvg::Fill();
 
 		// Lines
-		nvg::FontSize(FontSize);
-		nvg::StrokeColor(fontColour);
+		
 		nvg::FillColor(fontColour);
+		nvg::FontSize(FontSize);
 		nvg::FontFace(Font);
 		for(uint lineID = 0; lineID < Lines.Length; lineID++)
 		{
-			nvg::Text(vec2(X + 10, Y + (1 + lineID) * ( Spacing + FontSize) + Spacing ), "SHOE SHOE SHOE");
+			nvg::Text(vec2(X + 10, Y + (1 + lineID) * ( Spacing + FontSize) + Spacing ), Lines[lineID]);
 		}
 		nvg::Stroke();
-
-		
 	}
 	
 }

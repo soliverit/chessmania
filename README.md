@@ -3,6 +3,8 @@
 A chess plugin for Trackmania that uses the Stockfish chess engine as the AI player.
 
 It's just a project to learn the basics of angelscript. Fairly hack and slash. Still haven't figured out type casting...
+## Demo
+AI vs AI https://www.youtube.com/watch?v=3wXRyJxefq8
 ## Setup
 ### Openplanet and plugin
 1) Install OpenPlanet: Pretty sure it needs community mode, maybe standard

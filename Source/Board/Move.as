@@ -1,13 +1,22 @@
+/*
+	A struct for Player moves.
+*/
 class Move
 {
-	Board GameBoard;
-	Player ThePlayer;
-	Piece@ ThePiece;
-	vec2 StartPosition;
-	vec2 EndPosition;
-	string[] LetterLabels	= {"A", "B", "C", "D", "E", "F", "G", "H"};
-	string[] NumberLabels	= {"1", "2", "3", "4", "5", "6", "7", "8"};
+	Board GameBoard;		// Game Board
+	Player ThePlayer;		// The Player who moved
+	Piece@ ThePiece;		// The affected Piece - Think it's missing ironically. Isn't used yet.
+	vec2 StartPosition;		// Where the Piece was
+	vec2 EndPosition;		// Where the Piece is
+	string[] LetterLabels	= {"A", "B", "C", "D", "E", "F", "G", "H"};	// Letter labels for columns
+	string[] NumberLabels	= {"1", "2", "3", "4", "5", "6", "7", "8"};	// Don't know how to cast ints as strings
 	Move(){}
+	/*
+		Params:
+			board:		Board game board
+			player:		Player
+
+	*/
 	Move(Board board, Player Player, string move){
 		GameBoard			= board;
 		ThePlayer			= Player;

@@ -108,7 +108,10 @@ class Board
 		return vec2(cellID, rowID);
 	}
 	/*
+		Draw the Board
 
+		Params:
+			currentPlayerColour:	string dirty'ish of doing the player highlighting (green current player squares)
 	*/
 	void Render(string currentPlayerColour)
 	{
@@ -118,18 +121,15 @@ class Board
 		// Border
 		nvg::BeginPath();
 		nvg::RoundedRect(vec2(X - borderWidth , Y - borderWidth),vec2(Width + borderWidth * 2, Height + borderWidth * 2), 4.0);
-		nvg::StrokeWidth(2.0);
-		nvg::StrokeColor(OutlineColour);
 		nvg::FillColor(BorderColour);
 		nvg::Fill();
-		nvg::Stroke();
 		nvg::ClosePath();	
 		// Labels
 		nvg::FillColor(vec4(1,1,1,1));
 		nvg::FontSize(squareWidth / 2);
-		
 		for(uint rowID = 0; rowID < 8; rowID++)
 		{	
+			// Didn't figure out typecasting until debugging. First as plugin and all
 			// Adjustments are eyeballed for now. Ah'll write something sensible later.
 			nvg::Text(vec2(X - squareWidth * 0.5, Y + rowID * squareWidth + borderWidth * 1.15), "" + (7 - rowID + 1) + "");
 		}
@@ -142,25 +142,26 @@ class Board
 		float height	= 0;
 		bool isOddTile	= true;
 		nvg::FontFace(ChessFont);
+		// Rows
 		for(uint rowID = 0; rowID < 8; rowID++)
 		{	
 			int y	= Y + squareWidth * rowID;
-			height += squareWidth;
+			height 	+= squareWidth;
 			for(uint cellID = 0; cellID < 8; cellID++)
 			{
 				Square	square	= Squares[rowID][cellID];
-				height += squareWidth;
+				height 			+= squareWidth;
 				// Position
-				int x	= X + squareWidth * cellID;
+				int x			= X + squareWidth * cellID;
 				// Colour
 				vec4 tileColour	= isOddTile ? SquareOddColour : SquareEvenColour;
-				isOddTile	= ! isOddTile;
-				// Draw
+				isOddTile		= ! isOddTile;
+				// Draw square
 				nvg::BeginPath();
-
 				nvg::RoundedRect(x, y, squareWidth, squareWidth, 0);
 				nvg::StrokeWidth(3.0);
 				nvg::StrokeColor(vec4(0,0,0,0.2));
+				// High contrast current Player highlight. 
 				if(highlightedSquarePosition.y == rowID && highlightedSquarePosition.x == cellID)
 				{
 					nvg::FillColor(HighlightedColour);
@@ -174,22 +175,19 @@ class Board
 				}
 				nvg::Fill();
 				nvg::Stroke();
-			
 				nvg::ClosePath();
 				if(square.HasPiece)
 				{
 					// Draw piece
 					vec4 colour	= square.HeldPiece.Colour == "White" ? vec4(1,1,1,1) : vec4(0,0,0,1);
-					nvg::FillColor(colour);
-					
+					nvg::FillColor(colour);	
 					nvg::FontSize(squareWidth);
 					nvg::Text(vec2(x , y+ squareWidth - 3), square.HeldPiece.Letter);
 				}
-
-
 			}
 			isOddTile = ! isOddTile;
 		}
+		// NOT IN USE (was for end game screen. Just leaving on end Board for now)
 		// Overlay text (End message or whatever)
 		if(OverlayText != "")
 		{

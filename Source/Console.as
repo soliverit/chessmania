@@ -1,3 +1,6 @@
+/*
+	Force of habit: Custom  Console. Features are added as they're needed.
+*/
 class Console
 {
 	int X					= 0;

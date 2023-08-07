@@ -5,21 +5,24 @@ void Main()
 	console.Opacity		= 0.9;
 	console.FontSize	= 15;
 	console.BufferSize	= 9;
-	// Board	board;
-
 	Chess game		= Chess();
-	int baseWidth	= game.GameBoard.Width;
-	int baseHeight	= game.GameBoard.Height;
-	int baseX		= game.GameBoard.X;
-	int baseY		= game.GameBoard.Y;
-	game.IsVisible	= true;
+	game.IsVisible	= false;
 	game.IsFinished	= false;
 	bool largeMode	= false;
 	game.Render();
-	while(true){	
+	uint64 lastTime		= Time::get_Now();
+	while(true)
+	{	
+		uint64 time =Time::get_Now();
+		if(time - lastTime > 2000)
+		{
+			print("shoe");
+			lastTime	= time;
+			game.MakeMove();
+		}
 		game.Render();
+		
 		yield();
-		game.MakeMove();
+		
 	}
-
 }

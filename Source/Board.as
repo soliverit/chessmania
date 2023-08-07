@@ -22,7 +22,7 @@ class Board
 	int	ChessFont			= nvg::LoadFont("chess.ttf");
 	
 	string[] LetterLabels	= {"A", "B", "C", "D", "E", "F", "G", "H"};
-	
+	string OverlayText		= "";
 	nvg::Font Font = nvg::LoadFont("DroidSans.ttf", true);
 	Board()
 	{
@@ -38,7 +38,7 @@ class Board
 	}
 	
 	/*
-		Forsyth - en something - chess notation
+		Forsyth - en something  - chess notation
 	*/
 	string ToFEN(bool white)
 	{
@@ -189,6 +189,16 @@ class Board
 
 			}
 			isOddTile = ! isOddTile;
+		}
+		// Overlay text (End message or whatever)
+		if(OverlayText != "")
+		{
+			nvg::FillColor(vec4(1, 1, 1, 1));
+			nvg::FontFace(Font);
+			nvg::FontSize(squareWidth * 1.5);
+			nvg::Text(vec2( X + 0.1 * squareWidth, Y + 0.5 * Height), OverlayText);
+			nvg::FillColor(vec4(0, 0, 0, 0.9));
+			nvg::Fill();
 		}
 	}
 }

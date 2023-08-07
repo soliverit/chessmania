@@ -5,6 +5,7 @@ class Chess
 	Player Player1;
 	Player Player2;
 	Player CurrentPlayer;
+	Player Winner;
 	bool IsVisible;
 	bool IsFinished;
 	Move[] Moves;
@@ -21,6 +22,10 @@ class Chess
 	}
 	void MakeMove()
 	{
+		if(IsFinished)
+		{
+			return;
+		}
 		if(CurrentPlayer.IsAI)
 		{
 			if(!CurrentPlayer.IsThinking() && !CurrentPlayer.ReadyToMove())
@@ -38,13 +43,13 @@ class Chess
 				startSquare.RemovePiece();
 				endSquare.SetPiece(piece);
 
-
 				/*
 					Game state update / clean up
 				*/
-				if(Player.Checkmate)
+				if(CurrentPlayer.Checkmate)
 				{
 					IsFinished	= true;
+					Winner		= CurrentPlayer;
 				}
 				CurrentPlayer = CurrentPlayer.IsWhite() ? Player2 : Player1;
 
@@ -55,7 +60,7 @@ class Chess
 	void SetUpPieces()
 	{
 		// Player 1
-		Square@[] row = GameBoard.Squares[0];
+		Square@[] row = GameBoard.Squares[7];
 		row[0].SetPiece(Player1.TheFirstRook);
 		row[1].SetPiece(Player1.TheFirstHorse);
 		row[2].SetPiece(Player1.TheFirstBishop);
@@ -65,7 +70,7 @@ class Chess
 		row[6].SetPiece(Player1.TheSecondHorse);
 		row[7].SetPiece(Player1.TheSecondRook);
 
-		row	= GameBoard.Squares[1];
+		row	= GameBoard.Squares[6];
 		row[0].SetPiece(Player1.Pawn1);
 		row[1].SetPiece(Player1.Pawn2);
 		row[2].SetPiece(Player1.Pawn3);
@@ -75,7 +80,7 @@ class Chess
 		row[6].SetPiece(Player1.Pawn7);
 		row[7].SetPiece(Player1.Pawn8);
 		// Player 2
-		row = GameBoard.Squares[7];
+		row = GameBoard.Squares[0];
 		row[0].SetPiece(Player2.TheFirstRook);
 		row[1].SetPiece(Player2.TheFirstHorse);
 		row[2].SetPiece(Player2.TheFirstBishop);
@@ -85,7 +90,7 @@ class Chess
 		row[6].SetPiece(Player2.TheSecondHorse);
 		row[7].SetPiece(Player2.TheSecondRook);
 
-		row	= GameBoard.Squares[6];
+		row	= GameBoard.Squares[1];
 		row[0].SetPiece(Player2.Pawn1);
 		row[1].SetPiece(Player2.Pawn2);
 		row[2].SetPiece(Player2.Pawn3);
@@ -97,9 +102,15 @@ class Chess
 	}
 	void Render()
 	{
-		if(!IsVisible){
-			return;
+
+		if(IsFinished)
+		{
+			GameBoard.HighlightCurrentPlayer	= false;
+			GameBoard.OverlayText				= Winner.Colour + " Wins!";
 		}
-		GameBoard.Render(CurrentPlayer.Colour);
+		if(IsVisible)
+		{
+			GameBoard.Render(CurrentPlayer.Colour);
+		}
 	}
 }

@@ -56,8 +56,6 @@ class Player
 				NextMove 	= Thought.Json().Get("message");
 				Checkmate	= Thought.Json().Get("checkmate") == "TRUE";
 
-				print("Message: " + NextMove + ", Check: " + check);
-
 				Thinking		= false;
 				return false;
 			}

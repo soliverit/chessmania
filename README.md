@@ -1,4 +1,4 @@
-# Chessmani
+# Chessmania
 ## What is it?
 A chess plugin for Trackmania that uses the Stockfish chess engine as the AI player.
 
